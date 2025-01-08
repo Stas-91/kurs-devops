@@ -1,0 +1,1784 @@
+stas@ubuntu:~/cloud-terraform/kursovai$ terraform apply
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # null_resource.run_ansible_elastic will be created
+  + resource "null_resource" "run_ansible_elastic" {
+      + id = (known after apply)
+    }
+
+  # null_resource.run_ansible_grafana will be created
+  + resource "null_resource" "run_ansible_grafana" {
+      + id = (known after apply)
+    }
+
+  # null_resource.run_ansible_kibana will be created
+  + resource "null_resource" "run_ansible_kibana" {
+      + id = (known after apply)
+    }
+
+  # null_resource.run_ansible_prometheus will be created
+  + resource "null_resource" "run_ansible_prometheus" {
+      + id = (known after apply)
+    }
+
+  # null_resource.run_ansible_webserv1 will be created
+  + resource "null_resource" "run_ansible_webserv1" {
+      + id = (known after apply)
+    }
+
+  # null_resource.run_ansible_webserv2 will be created
+  + resource "null_resource" "run_ansible_webserv2" {
+      + id = (known after apply)
+    }
+
+  # time_sleep.wait_90_seconds will be created
+  + resource "time_sleep" "wait_90_seconds" {
+      + create_duration = "90s"
+      + id              = (known after apply)
+    }
+
+  # yandex_alb_backend_group.my-backend-group will be created
+  + resource "yandex_alb_backend_group" "my-backend-group" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + name       = "my-backend-group"
+
+      + http_backend {
+          + name             = "my-backend-group"
+          + port             = 80
+          + target_group_ids = (known after apply)
+          + weight           = 1
+
+          + healthcheck {
+              + interval = "10s"
+              + timeout  = "5s"
+
+              + http_healthcheck {
+                  + path = "/"
+                }
+            }
+        }
+    }
+
+  # yandex_alb_http_router.my-router will be created
+  + resource "yandex_alb_http_router" "my-router" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + name       = "my-http-router"
+    }
+
+  # yandex_alb_load_balancer.my-load-balancer will be created
+  + resource "yandex_alb_load_balancer" "my-load-balancer" {
+      + created_at   = (known after apply)
+      + folder_id    = (known after apply)
+      + id           = (known after apply)
+      + log_group_id = (known after apply)
+      + name         = "my-load-balancer"
+      + network_id   = (known after apply)
+      + status       = (known after apply)
+
+      + allocation_policy {
+          + location {
+              + disable_traffic = false
+              + subnet_id       = (known after apply)
+              + zone_id         = "ru-central1-a"
+            }
+        }
+
+      + listener {
+          + name = "my-listener"
+
+          + endpoint {
+              + ports = [
+                  + 80,
+                ]
+
+              + address {
+                  + external_ipv4_address {
+                      + address = (known after apply)
+                    }
+                }
+            }
+
+          + http {
+              + handler {
+                  + allow_http10       = false
+                  + http_router_id     = (known after apply)
+                  + rewrite_request_id = false
+                }
+            }
+        }
+
+      + timeouts {
+          + create = "20m"
+          + delete = "15m"
+          + update = "20m"
+        }
+    }
+
+  # yandex_alb_target_group.vm will be created
+  + resource "yandex_alb_target_group" "vm" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + name       = "webservers-target-group"
+
+      + target {
+          + ip_address = (known after apply)
+          + subnet_id  = (known after apply)
+        }
+      + target {
+          + ip_address = (known after apply)
+          + subnet_id  = (known after apply)
+        }
+    }
+
+  # yandex_alb_virtual_host.my-virtual-host will be created
+  + resource "yandex_alb_virtual_host" "my-virtual-host" {
+      + http_router_id = (known after apply)
+      + id             = (known after apply)
+      + name           = "my-virtual-host"
+
+      + route {
+          + name = "default-route"
+
+          + http_route {
+              + http_route_action {
+                  + backend_group_id = (known after apply)
+                }
+            }
+        }
+    }
+
+  # yandex_compute_instance.vm["bastion_host"] will be created
+  + resource "yandex_compute_instance" "vm" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hardware_generation       = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                
+                users:
+                  - name: stas
+                    groups: sudo
+                    shell: /bin/bash
+                    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+                    ssh-authorized-keys:
+                      - ****
+            EOT
+        }
+      + name                      = "bastion_host"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8s3qh62qn5sqoemni6"
+              + name        = (known after apply)
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + metadata_options (known after apply)
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy (known after apply)
+
+      + resources {
+          + core_fraction = 20
+          + cores         = 2
+          + memory        = 2
+        }
+
+      + scheduling_policy {
+          + preemptible = true
+        }
+    }
+
+  # yandex_compute_instance.vm["elasticsearch"] will be created
+  + resource "yandex_compute_instance" "vm" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hardware_generation       = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                
+                users:
+                  - name: stas
+                    groups: sudo
+                    shell: /bin/bash
+                    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+                    ssh-authorized-keys:
+                      - ****
+            EOT
+        }
+      + name                      = "elasticsearch"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8s3qh62qn5sqoemni6"
+              + name        = (known after apply)
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + metadata_options (known after apply)
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = false
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy (known after apply)
+
+      + resources {
+          + core_fraction = 20
+          + cores         = 2
+          + memory        = 2
+        }
+
+      + scheduling_policy {
+          + preemptible = true
+        }
+    }
+
+  # yandex_compute_instance.vm["grafana"] will be created
+  + resource "yandex_compute_instance" "vm" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hardware_generation       = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                
+                users:
+                  - name: stas
+                    groups: sudo
+                    shell: /bin/bash
+                    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+                    ssh-authorized-keys:
+                      - ****
+            EOT
+        }
+      + name                      = "grafana"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8s3qh62qn5sqoemni6"
+              + name        = (known after apply)
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + metadata_options (known after apply)
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy (known after apply)
+
+      + resources {
+          + core_fraction = 20
+          + cores         = 2
+          + memory        = 2
+        }
+
+      + scheduling_policy {
+          + preemptible = true
+        }
+    }
+
+  # yandex_compute_instance.vm["kibana"] will be created
+  + resource "yandex_compute_instance" "vm" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hardware_generation       = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                
+                users:
+                  - name: stas
+                    groups: sudo
+                    shell: /bin/bash
+                    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+                    ssh-authorized-keys:
+                      - ****
+            EOT
+        }
+      + name                      = "kibana"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8s3qh62qn5sqoemni6"
+              + name        = (known after apply)
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + metadata_options (known after apply)
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy (known after apply)
+
+      + resources {
+          + core_fraction = 20
+          + cores         = 2
+          + memory        = 2
+        }
+
+      + scheduling_policy {
+          + preemptible = true
+        }
+    }
+
+  # yandex_compute_instance.vm["prometheus"] will be created
+  + resource "yandex_compute_instance" "vm" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hardware_generation       = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                
+                users:
+                  - name: stas
+                    groups: sudo
+                    shell: /bin/bash
+                    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+                    ssh-authorized-keys:
+                      - ****
+            EOT
+        }
+      + name                      = "prometheus"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8s3qh62qn5sqoemni6"
+              + name        = (known after apply)
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + metadata_options (known after apply)
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = false
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy (known after apply)
+
+      + resources {
+          + core_fraction = 20
+          + cores         = 2
+          + memory        = 2
+        }
+
+      + scheduling_policy {
+          + preemptible = true
+        }
+    }
+
+  # yandex_compute_instance.vm["webserv1"] will be created
+  + resource "yandex_compute_instance" "vm" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hardware_generation       = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                
+                users:
+                  - name: stas
+                    groups: sudo
+                    shell: /bin/bash
+                    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+                    ssh-authorized-keys:
+                      - ****
+            EOT
+        }
+      + name                      = "webserv1"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8s3qh62qn5sqoemni6"
+              + name        = (known after apply)
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + metadata_options (known after apply)
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = false
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy (known after apply)
+
+      + resources {
+          + core_fraction = 20
+          + cores         = 2
+          + memory        = 2
+        }
+
+      + scheduling_policy {
+          + preemptible = true
+        }
+    }
+
+  # yandex_compute_instance.vm["webserv2"] will be created
+  + resource "yandex_compute_instance" "vm" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hardware_generation       = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "user-data" = <<-EOT
+                #cloud-config
+                
+                users:
+                  - name: stas
+                    groups: sudo
+                    shell: /bin/bash
+                    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+                    ssh-authorized-keys:
+                      - ****
+            EOT
+        }
+      + name                      = "webserv2"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-b"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8s3qh62qn5sqoemni6"
+              + name        = (known after apply)
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + metadata_options (known after apply)
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = false
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy (known after apply)
+
+      + resources {
+          + core_fraction = 20
+          + cores         = 2
+          + memory        = 2
+        }
+
+      + scheduling_policy {
+          + preemptible = true
+        }
+    }
+
+  # yandex_compute_snapshot_schedule.daily_snapshot will be created
+  + resource "yandex_compute_snapshot_schedule" "daily_snapshot" {
+      + created_at     = (known after apply)
+      + disk_ids       = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + name           = "daily-snapshot-schedule"
+      + snapshot_count = 7
+      + status         = (known after apply)
+
+      + schedule_policy {
+          + expression = "0 0 * * *"
+          + start_at   = (known after apply)
+        }
+
+      + snapshot_spec {
+          + description = "Daily snapshot created by Terraform"
+          + labels      = {
+              + "created_by" = "terraform"
+            }
+        }
+    }
+
+  # yandex_vpc_gateway.nat_gateway will be created
+  + resource "yandex_vpc_gateway" "nat_gateway" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + labels     = (known after apply)
+      + name       = "nat-gateway"
+
+      + shared_egress_gateway {}
+    }
+
+  # yandex_vpc_network.network-1 will be created
+  + resource "yandex_vpc_network" "network-1" {
+      + created_at                = (known after apply)
+      + default_security_group_id = (known after apply)
+      + folder_id                 = (known after apply)
+      + id                        = (known after apply)
+      + labels                    = (known after apply)
+      + name                      = "network1"
+      + subnet_ids                = (known after apply)
+    }
+
+  # yandex_vpc_route_table.rt will be created
+  + resource "yandex_vpc_route_table" "rt" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + labels     = (known after apply)
+      + name       = "my-route-table"
+      + network_id = (known after apply)
+
+      + static_route {
+          + destination_prefix = "0.0.0.0/0"
+          + gateway_id         = (known after apply)
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # yandex_vpc_security_group.bastion_sg will be created
+  + resource "yandex_vpc_security_group" "bastion_sg" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + labels     = (known after apply)
+      + name       = "bastion-sg"
+      + network_id = (known after apply)
+      + status     = (known after apply)
+
+      + egress {
+          + description       = "Allow all outbound traffic"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = -1
+          + protocol          = "ANY"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "0.0.0.0/0",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+
+      + ingress {
+          + description       = "Allow SSH from any IP"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 22
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "0.0.0.0/0",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # yandex_vpc_security_group.elasticsearch_sg will be created
+  + resource "yandex_vpc_security_group" "elasticsearch_sg" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + labels     = (known after apply)
+      + name       = "elasticsearch-sg"
+      + network_id = (known after apply)
+      + status     = (known after apply)
+
+      + egress {
+          + description       = "Allow outbound traffic"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = -1
+          + protocol          = "ANY"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "0.0.0.0/0",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+
+      + ingress {
+          + description       = "Allow SSH from Bastion Host"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 22
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "192.168.13.0/24",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+      + ingress {
+          + description       = "Allow access to Elasticsearch on port 9200 from web servers and Kibana"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 9200
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "192.168.10.0/24",
+              + "192.168.11.0/24",
+              + "192.168.12.0/24",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+      + ingress {
+          + description       = "Allow access to Elasticsearch on port 9300 from Kibana"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 9300
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "192.168.12.0/24",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # yandex_vpc_security_group.grafana_sg will be created
+  + resource "yandex_vpc_security_group" "grafana_sg" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + labels     = (known after apply)
+      + name       = "grafana-sg"
+      + network_id = (known after apply)
+      + status     = (known after apply)
+
+      + egress {
+          + description       = "Allow outbound traffic"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = -1
+          + protocol          = "ANY"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "0.0.0.0/0",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+
+      + ingress {
+          + description       = "Allow HTTP access from any IP"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 3000
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "0.0.0.0/0",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+      + ingress {
+          + description       = "Allow SSH from Bastion Host"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 22
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "192.168.13.0/24",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # yandex_vpc_security_group.kibana_sg will be created
+  + resource "yandex_vpc_security_group" "kibana_sg" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + labels     = (known after apply)
+      + name       = "kibana-sg"
+      + network_id = (known after apply)
+      + status     = (known after apply)
+
+      + egress {
+          + description       = "Allow outbound traffic"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = -1
+          + protocol          = "ANY"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "0.0.0.0/0",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+
+      + ingress {
+          + description       = "Allow HTTP access from any IP"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 5601
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "0.0.0.0/0",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+      + ingress {
+          + description       = "Allow SSH from Bastion Host"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 22
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "192.168.13.0/24",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # yandex_vpc_security_group.prometheus_sg will be created
+  + resource "yandex_vpc_security_group" "prometheus_sg" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + labels     = (known after apply)
+      + name       = "prometheus-sg"
+      + network_id = (known after apply)
+      + status     = (known after apply)
+
+      + egress {
+          + description       = "Allow outbound traffic"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = -1
+          + protocol          = "ANY"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "0.0.0.0/0",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+
+      + ingress {
+          + description       = "Allow Grafana to connect to Prometheus on port 9090"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 9090
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "192.168.12.0/24",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+      + ingress {
+          + description       = "Allow SSH from Bastion Host"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 22
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "192.168.13.0/24",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # yandex_vpc_security_group.web_sg will be created
+  + resource "yandex_vpc_security_group" "web_sg" {
+      + created_at = (known after apply)
+      + folder_id  = (known after apply)
+      + id         = (known after apply)
+      + labels     = (known after apply)
+      + name       = "web-sg"
+      + network_id = (known after apply)
+      + status     = (known after apply)
+
+      + egress {
+          + description       = "Allow outbound traffic"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = -1
+          + protocol          = "ANY"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "0.0.0.0/0",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+
+      + ingress {
+          + description       = "Allow HTTP traffic from ALB"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 80
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "192.168.12.0/24",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+      + ingress {
+          + description       = "Allow SSH from Bastion Host"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 22
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "192.168.13.0/24",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+      + ingress {
+          + description       = "Allow scraping metrics on port 4040"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 4040
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "192.168.10.0/24",
+              + "192.168.11.0/24",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+      + ingress {
+          + description       = "Allow scraping metrics on port 9100"
+          + from_port         = -1
+          + id                = (known after apply)
+          + labels            = (known after apply)
+          + port              = 9100
+          + protocol          = "TCP"
+          + to_port           = -1
+          + v4_cidr_blocks    = [
+              + "192.168.10.0/24",
+              + "192.168.11.0/24",
+            ]
+          + v6_cidr_blocks    = []
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # yandex_vpc_subnet.subnet-1 will be created
+  + resource "yandex_vpc_subnet" "subnet-1" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = "subnet1"
+      + network_id     = (known after apply)
+      + route_table_id = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.10.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-a"
+    }
+
+  # yandex_vpc_subnet.subnet-2 will be created
+  + resource "yandex_vpc_subnet" "subnet-2" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = "subnet2"
+      + network_id     = (known after apply)
+      + route_table_id = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.11.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-b"
+    }
+
+  # yandex_vpc_subnet.subnet-3 will be created
+  + resource "yandex_vpc_subnet" "subnet-3" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = "subnet3"
+      + network_id     = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.12.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-a"
+    }
+
+  # yandex_vpc_subnet.subnet-4 will be created
+  + resource "yandex_vpc_subnet" "subnet-4" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = "subnet4"
+      + network_id     = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.13.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-a"
+    }
+
+Plan: 33 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + external_IP_address_of_the_load_balancer = [
+      + {
+          + address = (known after apply)
+        },
+    ]
+  + external_ip_addresses                    = {
+      + bastion_host  = (known after apply)
+      + elasticsearch = (known after apply)
+      + grafana       = (known after apply)
+      + kibana        = (known after apply)
+      + prometheus    = (known after apply)
+      + webserv1      = (known after apply)
+      + webserv2      = (known after apply)
+    }
+  + internal_ip_addresses                    = {
+      + bastion_host  = (known after apply)
+      + elasticsearch = (known after apply)
+      + grafana       = (known after apply)
+      + kibana        = (known after apply)
+      + prometheus    = (known after apply)
+      + webserv1      = (known after apply)
+      + webserv2      = (known after apply)
+    }
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+yandex_vpc_network.network-1: Creating...
+yandex_vpc_gateway.nat_gateway: Creating...
+yandex_alb_http_router.my-router: Creating...
+yandex_alb_http_router.my-router: Creation complete after 1s [id=ds7fqokn84ivpeq849mu]
+yandex_vpc_gateway.nat_gateway: Creation complete after 1s [id=enpkq1f9g6bd0mutg05t]
+yandex_vpc_network.network-1: Creation complete after 2s [id=enpusn2fhf5ukd2uotes]
+yandex_vpc_subnet.subnet-4: Creating...
+yandex_vpc_subnet.subnet-3: Creating...
+yandex_vpc_route_table.rt: Creating...
+yandex_vpc_security_group.bastion_sg: Creating...
+yandex_vpc_subnet.subnet-3: Creation complete after 1s [id=e9bnkhls4udegc3fjgi4]
+yandex_vpc_subnet.subnet-4: Creation complete after 1s [id=e9b56sg40de9hgeegl06]
+yandex_vpc_security_group.prometheus_sg: Creating...
+yandex_vpc_security_group.kibana_sg: Creating...
+yandex_vpc_security_group.grafana_sg: Creating...
+yandex_vpc_route_table.rt: Creation complete after 2s [id=enpaattlitnbilods2fa]
+yandex_vpc_subnet.subnet-2: Creating...
+yandex_vpc_subnet.subnet-1: Creating...
+yandex_vpc_security_group.bastion_sg: Creation complete after 2s [id=enp2a8cdvqidfcbf7vuh]
+yandex_vpc_subnet.subnet-2: Creation complete after 0s [id=e2li71b3vb7mld85699q]
+yandex_vpc_subnet.subnet-1: Creation complete after 1s [id=e9b39jt3vfto84b2thph]
+yandex_vpc_security_group.elasticsearch_sg: Creating...
+yandex_vpc_security_group.web_sg: Creating...
+yandex_vpc_security_group.grafana_sg: Creation complete after 4s [id=enpskntmf7rnq8el7rc8]
+yandex_vpc_security_group.web_sg: Creation complete after 4s [id=enp611cjjheapf97k6qp]
+yandex_vpc_security_group.elasticsearch_sg: Creation complete after 7s [id=enph3om161av1kid03k6]
+yandex_vpc_security_group.kibana_sg: Still creating... [10s elapsed]
+yandex_vpc_security_group.prometheus_sg: Still creating... [10s elapsed]
+yandex_vpc_security_group.prometheus_sg: Creation complete after 12s [id=enp44810rl299dvf491k]
+yandex_vpc_security_group.kibana_sg: Creation complete after 17s [id=enp4337t1q7f18rma70s]
+yandex_compute_instance.vm["prometheus"]: Creating...
+yandex_compute_instance.vm["grafana"]: Creating...
+yandex_compute_instance.vm["kibana"]: Creating...
+yandex_compute_instance.vm["webserv1"]: Creating...
+yandex_compute_instance.vm["bastion_host"]: Creating...
+yandex_compute_instance.vm["elasticsearch"]: Creating...
+yandex_compute_instance.vm["webserv2"]: Creating...
+yandex_compute_instance.vm["bastion_host"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["webserv2"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["elasticsearch"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["grafana"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["webserv1"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["prometheus"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["kibana"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["kibana"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["prometheus"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["bastion_host"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["webserv2"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["grafana"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["webserv1"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["elasticsearch"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["prometheus"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["kibana"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["grafana"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["elasticsearch"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["webserv2"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["webserv1"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["bastion_host"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["elasticsearch"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["kibana"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["webserv1"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["prometheus"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["bastion_host"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["grafana"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["webserv2"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["elasticsearch"]: Creation complete after 44s [id=fhm24iqs5jbkufvcbjc8]
+yandex_compute_instance.vm["prometheus"]: Creation complete after 44s [id=fhm378j5ti9dcfkk62f8]
+yandex_compute_instance.vm["webserv2"]: Creation complete after 46s [id=epdfjs5dskf9kqmuk325]
+yandex_compute_instance.vm["kibana"]: Creation complete after 47s [id=fhm7qpi6lcm2pfgtbc6g]
+yandex_compute_instance.vm["webserv1"]: Creation complete after 48s [id=fhmnsieb3f8c6vop3o0a]
+yandex_compute_instance.vm["bastion_host"]: Still creating... [50s elapsed]
+yandex_compute_instance.vm["grafana"]: Still creating... [50s elapsed]
+yandex_compute_instance.vm["grafana"]: Creation complete after 52s [id=fhmq0od02vv79sd9fts9]
+yandex_compute_instance.vm["bastion_host"]: Still creating... [1m0s elapsed]
+yandex_compute_instance.vm["bastion_host"]: Creation complete after 1m6s [id=fhmapgev4evfe5g6ejc5]
+yandex_alb_target_group.vm: Creating...
+yandex_compute_snapshot_schedule.daily_snapshot: Creating...
+time_sleep.wait_90_seconds: Creating...
+yandex_alb_target_group.vm: Creation complete after 0s [id=ds774vempu3dplmh8nng]
+yandex_alb_backend_group.my-backend-group: Creating...
+yandex_alb_load_balancer.my-load-balancer: Creating...
+yandex_alb_backend_group.my-backend-group: Creation complete after 1s [id=ds74dj3cb1uh29jib8qo]
+yandex_alb_virtual_host.my-virtual-host: Creating...
+yandex_alb_virtual_host.my-virtual-host: Creation complete after 1s [id=ds7fqokn84ivpeq849mu/my-virtual-host]
+yandex_compute_snapshot_schedule.daily_snapshot: Creation complete after 3s [id=fd8tefbcl3uh5ddhrih3]
+time_sleep.wait_90_seconds: Still creating... [10s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [10s elapsed]
+time_sleep.wait_90_seconds: Still creating... [20s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [20s elapsed]
+time_sleep.wait_90_seconds: Still creating... [30s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [30s elapsed]
+time_sleep.wait_90_seconds: Still creating... [40s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [40s elapsed]
+time_sleep.wait_90_seconds: Still creating... [50s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [50s elapsed]
+time_sleep.wait_90_seconds: Still creating... [1m0s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m0s elapsed]
+time_sleep.wait_90_seconds: Still creating... [1m10s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m10s elapsed]
+time_sleep.wait_90_seconds: Still creating... [1m20s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m20s elapsed]
+time_sleep.wait_90_seconds: Still creating... [1m30s elapsed]
+time_sleep.wait_90_seconds: Creation complete after 1m30s [id=2025-01-08T12:27:50Z]
+null_resource.run_ansible_webserv1: Creating...
+null_resource.run_ansible_grafana: Creating...
+null_resource.run_ansible_webserv2: Creating...
+null_resource.run_ansible_kibana: Creating...
+null_resource.run_ansible_elastic: Creating...
+null_resource.run_ansible_prometheus: Creating...
+null_resource.run_ansible_elastic: Provisioning with 'local-exec'...
+null_resource.run_ansible_kibana: Provisioning with 'local-exec'...
+null_resource.run_ansible_elastic (local-exec): Executing: ["/bin/sh" "-c" "      cd ./ansible &&\n      ansible-playbook ansible_elastic.yml \\\n      --extra-vars \"bastion_server=158.160.59.42 \\\n      elastic_password=**** \\     \n      ansible_host=192.168.10.12\"\n"]
+null_resource.run_ansible_kibana (local-exec): Executing: ["/bin/sh" "-c" "      cd ./ansible && \\\n      ansible-playbook ansible_kibana.yml \\\n      --extra-vars \"bastion_server=158.160.59.42 \\\n      ansible_host=192.168.12.4 \\\n      elastic_password=**** \\      \n      elastic_ip=192.168.10.12\"\n"]
+null_resource.run_ansible_webserv1: Provisioning with 'local-exec'...
+null_resource.run_ansible_webserv1 (local-exec): Executing: ["/bin/sh" "-c" "      cd ./ansible &&\n      ansible-playbook ansible_web.yml \\\n      --extra-vars \"bastion_server=158.160.59.42 \\\n      ansible_host=192.168.10.30 \\\n      elastic_password=**** \\\n      elastic_ip=192.168.10.12\"\n"]
+null_resource.run_ansible_grafana: Provisioning with 'local-exec'...
+null_resource.run_ansible_grafana (local-exec): Executing: ["/bin/sh" "-c" "      cd ./ansible &&\n      ansible-playbook ansible_grafana.yml \\\n      --extra-vars \"bastion_server=158.160.59.42 \\\n      ansible_host=192.168.12.15 \\\n      grafana_password=**** \\\n      prometheus_ip=192.168.10.11\"\n"]
+null_resource.run_ansible_prometheus: Provisioning with 'local-exec'...
+null_resource.run_ansible_webserv2: Provisioning with 'local-exec'...
+null_resource.run_ansible_webserv2 (local-exec): Executing: ["/bin/sh" "-c" "      cd ./ansible &&\n      ansible-playbook ansible_web.yml \\\n      --extra-vars \"bastion_server=158.160.59.42 \\\n      ansible_host=192.168.11.18 \\\n      elastic_password=**** \\      \n      elastic_ip=192.168.10.12\"\n"]
+null_resource.run_ansible_prometheus (local-exec): Executing: ["/bin/sh" "-c" "      cd ./ansible &&\n      ansible-playbook ansible_prometheus.yml \\\n      --extra-vars \"bastion_server=158.160.59.42 \\\n      ansible_host=192.168.10.11 \\\n      exporter_host1=192.168.10.30 \\\n      exporter_host2=192.168.11.18\"\n"]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m30s elapsed]
+
+null_resource.run_ansible_kibana (local-exec): PLAY [Install and configure Kibana] ********************************************
+
+
+
+null_resource.run_ansible_prometheus (local-exec): PLAY [Install and configure Prometheus with exporters] *************************
+
+
+null_resource.run_ansible_webserv2 (local-exec): PLAY [Install and configure Nginx with exporters and Filebeat] *****************
+
+null_resource.run_ansible_webserv1 (local-exec): PLAY [Install and configure Nginx with exporters and Filebeat] *****************
+
+null_resource.run_ansible_kibana (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.run_ansible_prometheus (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.run_ansible_webserv1 (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.run_ansible_webserv2 (local-exec): TASK [Gathering Facts] *********************************************************
+
+null_resource.run_ansible_elastic (local-exec): PLAY [Install Elasticsearch from Yandex repository] ****************************
+
+null_resource.run_ansible_elastic (local-exec): TASK [Gathering Facts] *********************************************************
+
+null_resource.run_ansible_grafana (local-exec): PLAY [Install and configure Grafana with dashboards] ***************************
+
+null_resource.run_ansible_grafana (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.run_ansible_prometheus: Still creating... [10s elapsed]
+null_resource.run_ansible_webserv2: Still creating... [10s elapsed]
+null_resource.run_ansible_grafana: Still creating... [10s elapsed]
+null_resource.run_ansible_elastic: Still creating... [10s elapsed]
+null_resource.run_ansible_webserv1: Still creating... [10s elapsed]
+null_resource.run_ansible_kibana: Still creating... [10s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m40s elapsed]
+null_resource.run_ansible_grafana (local-exec): ok: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Download Grafana .deb package] *******************************************
+null_resource.run_ansible_prometheus (local-exec): ok: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Ensure required directories exist for Prometheus binaries] ***************
+null_resource.run_ansible_webserv2 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Update package list] *****************************************************
+null_resource.run_ansible_elastic (local-exec): ok: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Add Elasticsearch repository] ********************************************
+null_resource.run_ansible_webserv1 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Update package list] *****************************************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Download Prometheus tarball] *********************************************
+null_resource.run_ansible_kibana (local-exec): ok: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Add Elasticsearch repository] ********************************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Install Grafana from .deb package] ***************************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Extract Prometheus tarball] **********************************************
+null_resource.run_ansible_kibana: Still creating... [20s elapsed]
+null_resource.run_ansible_elastic: Still creating... [20s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [20s elapsed]
+null_resource.run_ansible_webserv1: Still creating... [20s elapsed]
+null_resource.run_ansible_grafana: Still creating... [20s elapsed]
+null_resource.run_ansible_webserv2: Still creating... [20s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m50s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Link Prometheus binary to system path] ***********************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Create Prometheus configuration directory] *******************************
+null_resource.run_ansible_grafana: Still creating... [30s elapsed]
+null_resource.run_ansible_kibana: Still creating... [30s elapsed]
+null_resource.run_ansible_webserv2: Still creating... [30s elapsed]
+null_resource.run_ansible_webserv1: Still creating... [30s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [30s elapsed]
+null_resource.run_ansible_elastic: Still creating... [30s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m0s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Deploy Prometheus configuration file] ************************************
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Update APT cache] ********************************************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Deploy Prometheus systemd service file] **********************************
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Install Elasticsearch] ***************************************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Install Nginx] ***********************************************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Reload systemd to apply Prometheus service] ******************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Install Nginx] ***********************************************************
+null_resource.run_ansible_prometheus (local-exec): ok: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Start and enable Prometheus service] *************************************
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Update APT cache] ********************************************************
+null_resource.run_ansible_webserv2: Still creating... [40s elapsed]
+null_resource.run_ansible_kibana: Still creating... [40s elapsed]
+null_resource.run_ansible_grafana: Still creating... [40s elapsed]
+null_resource.run_ansible_webserv1: Still creating... [40s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [40s elapsed]
+null_resource.run_ansible_elastic: Still creating... [40s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m10s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): PLAY RECAP *********************************************************************
+null_resource.run_ansible_prometheus (local-exec): host1                      : ok=10   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.run_ansible_prometheus: Creation complete after 42s [id=6984164490529553005]
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Install Kibana] **********************************************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Create Grafana data source provisioning configuration] *******************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Create Grafana dashboard provisioning configuration] *********************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Copy Grafana dashboard JSON] *********************************************
+null_resource.run_ansible_elastic: Still creating... [50s elapsed]
+null_resource.run_ansible_webserv1: Still creating... [50s elapsed]
+null_resource.run_ansible_grafana: Still creating... [50s elapsed]
+null_resource.run_ansible_kibana: Still creating... [50s elapsed]
+null_resource.run_ansible_webserv2: Still creating... [50s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m20s elapsed]
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Configure Grafana admin username] ****************************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Configure Grafana admin password] ****************************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Restart Grafana service to apply dashboards provisioning] ****************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): PLAY RECAP *********************************************************************
+null_resource.run_ansible_grafana (local-exec): host1                      : ok=9    changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.run_ansible_grafana: Creation complete after 58s [id=5814564039000326662]
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Ensure Nginx is running] *************************************************
+null_resource.run_ansible_kibana: Still creating... [1m0s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m0s elapsed]
+null_resource.run_ansible_webserv1: Still creating... [1m0s elapsed]
+null_resource.run_ansible_webserv2: Still creating... [1m0s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m30s elapsed]
+null_resource.run_ansible_webserv2 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Generate dynamic index.html] *********************************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Download Node Exporter] **************************************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Extract Node Exporter to /tmp] *******************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Ensure Nginx is running] *************************************************
+null_resource.run_ansible_webserv1 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Generate dynamic index.html] *********************************************
+null_resource.run_ansible_webserv1: Still creating... [1m10s elapsed]
+null_resource.run_ansible_kibana: Still creating... [1m10s elapsed]
+null_resource.run_ansible_webserv2: Still creating... [1m10s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m10s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m40s elapsed]
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Move Node Exporter binary to /usr/local/bin] *****************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Create Node Exporter systemd service] ************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Download Node Exporter] **************************************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Start and enable Node Exporter] ******************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Extract Node Exporter to /tmp] *******************************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Download Nginx Log Exporter binary] **************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Move Node Exporter binary to /usr/local/bin] *****************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Extract Nginx Log Exporter binary to /tmp] *******************************
+null_resource.run_ansible_webserv2: Still creating... [1m20s elapsed]
+null_resource.run_ansible_kibana: Still creating... [1m20s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m20s elapsed]
+null_resource.run_ansible_webserv1: Still creating... [1m20s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m50s elapsed]
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Create Node Exporter systemd service] ************************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Move Nginx Log Exporter binary to /usr/sbin] *****************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Start and enable Node Exporter] ******************************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Ensure Nginx Log Exporter binary is executable] **************************
+null_resource.run_ansible_webserv2 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Create Nginx Log Exporter systemd service file] **************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Download Nginx Log Exporter binary] **************************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Create Nginx Log Exporter configuration file] ****************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Extract Nginx Log Exporter binary to /tmp] *******************************
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Configure Elasticsearch using template] **********************************
+null_resource.run_ansible_kibana: Still creating... [1m30s elapsed]
+null_resource.run_ansible_webserv2: Still creating... [1m30s elapsed]
+null_resource.run_ansible_webserv1: Still creating... [1m30s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m30s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m0s elapsed]
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Add nobody user to adm group] ********************************************
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Enable and start Elasticsearch] ******************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Move Nginx Log Exporter binary to /usr/sbin] *****************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Reload systemd to apply Nginx Log Exporter service] **********************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Ensure Nginx Log Exporter binary is executable] **************************
+null_resource.run_ansible_webserv2 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Start and enable Nginx Log Exporter service] *****************************
+null_resource.run_ansible_webserv1 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Create Nginx Log Exporter systemd service file] **************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Add Elasticsearch repository] ********************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Create Nginx Log Exporter configuration file] ****************************
+null_resource.run_ansible_webserv1: Still creating... [1m40s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m40s elapsed]
+null_resource.run_ansible_kibana: Still creating... [1m40s elapsed]
+null_resource.run_ansible_webserv2: Still creating... [1m40s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m10s elapsed]
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Add nobody user to adm group] ********************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Reload systemd to apply Nginx Log Exporter service] **********************
+null_resource.run_ansible_webserv1 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Start and enable Nginx Log Exporter service] *****************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Add Elasticsearch repository] ********************************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Update APT cache] ********************************************************
+null_resource.run_ansible_webserv2: Still creating... [1m50s elapsed]
+null_resource.run_ansible_webserv1: Still creating... [1m50s elapsed]
+null_resource.run_ansible_kibana: Still creating... [1m50s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m50s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m20s elapsed]
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Install Filebeat] ********************************************************
+null_resource.run_ansible_elastic: Still creating... [2m0s elapsed]
+null_resource.run_ansible_webserv2: Still creating... [2m0s elapsed]
+null_resource.run_ansible_kibana: Still creating... [2m0s elapsed]
+null_resource.run_ansible_webserv1: Still creating... [2m0s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m30s elapsed]
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Update APT cache] ********************************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Install Filebeat] ********************************************************
+null_resource.run_ansible_webserv1: Still creating... [2m10s elapsed]
+null_resource.run_ansible_webserv2: Still creating... [2m10s elapsed]
+null_resource.run_ansible_elastic: Still creating... [2m10s elapsed]
+null_resource.run_ansible_kibana: Still creating... [2m10s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m40s elapsed]
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Configure Filebeat using template] ***************************************
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Wait for Elasticsearch to become available] ******************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Copy Nginx module configuration] *****************************************
+null_resource.run_ansible_kibana: Still creating... [2m20s elapsed]
+null_resource.run_ansible_webserv1: Still creating... [2m20s elapsed]
+null_resource.run_ansible_webserv2: Still creating... [2m20s elapsed]
+null_resource.run_ansible_elastic: Still creating... [2m20s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m50s elapsed]
+null_resource.run_ansible_elastic (local-exec): ok: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Setup password for elastic user] *****************************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Enable Nginx module in Filebeat] *****************************************
+null_resource.run_ansible_webserv2 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): TASK [Enable and start Filebeat service] ***************************************
+null_resource.run_ansible_webserv2 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv2 (local-exec): PLAY RECAP *********************************************************************
+null_resource.run_ansible_webserv2 (local-exec): host1                      : ok=26   changed=21   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.run_ansible_webserv2: Creation complete after 2m28s [id=5765921508717252365]
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Configure Filebeat using template] ***************************************
+null_resource.run_ansible_webserv1: Still creating... [2m30s elapsed]
+null_resource.run_ansible_elastic: Still creating... [2m30s elapsed]
+null_resource.run_ansible_kibana: Still creating... [2m30s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m0s elapsed]
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Copy Nginx module configuration] *****************************************
+null_resource.run_ansible_elastic (local-exec): ok: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Extract temporary password for elastic user] *****************************
+null_resource.run_ansible_elastic (local-exec): ok: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Change elastic user password] ********************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Enable Nginx module in Filebeat] *****************************************
+null_resource.run_ansible_elastic (local-exec): ok: [host1]
+
+null_resource.run_ansible_elastic (local-exec): PLAY RECAP *********************************************************************
+null_resource.run_ansible_elastic (local-exec): host1                      : ok=10   changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.run_ansible_elastic: Creation complete after 2m35s [id=1273983508311406171]
+null_resource.run_ansible_webserv1 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Enable and start Filebeat service] ***************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): PLAY RECAP *********************************************************************
+null_resource.run_ansible_webserv1 (local-exec): host1                      : ok=26   changed=21   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.run_ansible_webserv1: Creation complete after 2m39s [id=1279268652893087949]
+null_resource.run_ansible_kibana: Still creating... [2m40s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m10s elapsed]
+null_resource.run_ansible_kibana: Still creating... [2m50s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m20s elapsed]
+null_resource.run_ansible_kibana: Still creating... [3m0s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m30s elapsed]
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Configure Kibana] ********************************************************
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Ensure Kibana service is started and enabled] ****************************
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Wait for Kibana to become available] *************************************
+null_resource.run_ansible_kibana: Still creating... [3m10s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m40s elapsed]
+null_resource.run_ansible_kibana: Still creating... [3m20s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m50s elapsed]
+null_resource.run_ansible_kibana: Still creating... [3m30s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [5m0s elapsed]
+null_resource.run_ansible_kibana: Still creating... [3m40s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [5m10s elapsed]
+null_resource.run_ansible_kibana: Still creating... [3m50s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [5m20s elapsed]
+null_resource.run_ansible_kibana (local-exec): FAILED - RETRYING: [host1]: Wait for Kibana to become available (10 retries left).
+null_resource.run_ansible_kibana (local-exec): FAILED - RETRYING: [host1]: Wait for Kibana to become available (9 retries left).
+null_resource.run_ansible_kibana (local-exec): ok: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Copy Kibana export file to remote host] **********************************
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Import Kibana dashboard and visualizations using curl with authentication] ***
+null_resource.run_ansible_kibana: Still creating... [4m0s elapsed]
+null_resource.run_ansible_kibana (local-exec): ok: [host1]
+
+null_resource.run_ansible_kibana (local-exec): PLAY RECAP *********************************************************************
+null_resource.run_ansible_kibana (local-exec): host1                      : ok=9    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.run_ansible_kibana: Creation complete after 4m0s [id=3199191011429085042]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [5m30s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [5m40s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [5m50s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [6m0s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Creation complete after 6m5s [id=ds7k8rbso1240kg1i2ip]
+
+Apply complete! Resources: 33 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+external_IP_address_of_the_load_balancer = tolist([
+  {
+    "address" = "158.160.148.220"
+  },
+])
+external_ip_addresses = {
+  "bastion_host" = "158.160.59.42"
+  "elasticsearch" = ""
+  "grafana" = "158.160.46.59"
+  "kibana" = "158.160.41.153"
+  "prometheus" = ""
+  "webserv1" = ""
+  "webserv2" = ""
+}
+internal_ip_addresses = {
+  "bastion_host" = "192.168.13.33"
+  "elasticsearch" = "192.168.10.12"
+  "grafana" = "192.168.12.15"
+  "kibana" = "192.168.12.4"
+  "prometheus" = "192.168.10.11"
+  "webserv1" = "192.168.10.30"
+  "webserv2" = "192.168.11.18"
+}
