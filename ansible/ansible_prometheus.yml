@@ -1,0 +1,65 @@
+---
+- name: Install and configure Prometheus with exporters
+  hosts: ansible_hosts
+  become: true
+
+  tasks:
+    - name: Ensure required directories exist for Prometheus binaries
+      ansible.builtin.file:
+        path: /opt/prometheus
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Download Prometheus tarball
+      ansible.builtin.get_url:
+        url: https://github.com/prometheus/prometheus/releases/download/v2.46.0/prometheus-2.46.0.linux-amd64.tar.gz
+        dest: /tmp/prometheus.tar.gz
+        mode: '0644'
+
+    - name: Extract Prometheus tarball
+      ansible.builtin.unarchive:
+        src: /tmp/prometheus.tar.gz
+        dest: /opt/prometheus
+        remote_src: true
+
+    - name: Link Prometheus binary to system path
+      ansible.builtin.file:
+        src: /opt/prometheus/prometheus-2.46.0.linux-amd64/prometheus
+        dest: /usr/local/bin/prometheus
+        state: link
+
+    - name: Create Prometheus configuration directory
+      ansible.builtin.file:
+        path: /etc/prometheus
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Deploy Prometheus configuration file
+      ansible.builtin.template:
+        src: templates/prometheus.yml.j2
+        dest: /etc/prometheus/prometheus.yml
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Deploy Prometheus systemd service file
+      ansible.builtin.copy:
+        src: files/prometheus.service
+        dest: /etc/systemd/system/prometheus.service
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Reload systemd to apply Prometheus service
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Start and enable Prometheus service
+      ansible.builtin.systemd:
+        name: prometheus
+        state: started
+        enabled: true
