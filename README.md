@@ -5,6 +5,7 @@
 - Для работы необходимо указать данные в файле terraform.tfvars для yandex_cloud_token, elastic_passwd и grafana_passwd
 - В файле user-data.yaml необходимо указать публичный ключ, а в папку ansible положить соответствующий приватный ключ и указать его имя в ansible.cfg
 - Для входа в grafana пользователь - admin, kibana - elastic
+- На всех ВМ пользователь - stas
 
 Дополнительные настройки:  
 - В файле variables.tf можно настроить ВМ
