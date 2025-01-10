@@ -1,5 +1,8 @@
 # kurs-devops
 
+# Опиание работы плана terraform и настройки ansible  
+-
+
 ### Настройка для работы:  
 - Создание и настройка инфраструкты происходит по запуску terraform (terraform apply) из terraform происходит в частности и запуск плейбуков ansible
 - Для работы необходимо указать данные в файле terraform.tfvars: yandex_cloud_token, elastic_passwd и grafana_passwd
