@@ -46,7 +46,7 @@
 
 Лог создания ресурсов terraform и настройки ansible представлен в файле: [worklog](results/worklog)  
 
-Скриншоты (католог results): [VM](results/)
+Скриншоты (католог results): [images](results/)
 
 ### Решение дополнительной задачи
 https://github.com/Stas-91/kursovai-dop/tree/main  
@@ -98,9 +98,9 @@ https://github.com/Stas-91/kursovai-dop/tree/main
 Работающая инфраструктура из-за кластера PostgreSQL особенно сильно рассходует денежные средства, поэтому представляю только данные о ее работе.  
 Если в ходе провери задания потребуется показать работу, то развертка занимает не дольше 10 минут и может быть осуществлена по предварительной договоренности.  
 
-Лог создания ресурсов terraform и настройки ansible представлен в файле: [worklog](results_dop/worklog)  
+Лог создания ресурсов terraform и настройки ansible представлен в файле: [worklog](results_dop/log_dop)  
 
-Скриншоты (католог results_dop): [VM](results_dop/)
+Скриншоты (католог results_dop): [images](results_dop/)
 
 
 
