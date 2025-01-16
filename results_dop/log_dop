@@ -1,0 +1,656 @@
+yandex_compute_instance.vm["bastion_host"]: Creating...
+yandex_compute_instance.vm["elasticsearch"]: Creating...
+yandex_compute_instance.vm["prometheus"]: Creating...
+yandex_compute_instance.vm["grafana"]: Creating...
+yandex_compute_instance.vm["kibana"]: Creating...
+yandex_compute_instance.vm["webserv1"]: Creating...
+yandex_compute_instance.vm["bastion_host"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["elasticsearch"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["prometheus"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["grafana"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["kibana"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["webserv1"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm["prometheus"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["elasticsearch"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["bastion_host"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["grafana"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["webserv1"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["kibana"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm["bastion_host"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["grafana"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["elasticsearch"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["prometheus"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["kibana"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["webserv1"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm["elasticsearch"]: Creation complete after 35s [id=fhm763dim2572ir4tbsn]
+yandex_compute_instance.vm["kibana"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["grafana"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["bastion_host"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["webserv1"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["prometheus"]: Still creating... [40s elapsed]
+yandex_compute_instance.vm["webserv1"]: Creation complete after 40s [id=fhm3btl5lt45ffttnnln]
+yandex_compute_instance.vm["prometheus"]: Creation complete after 48s [id=fhmh9tnag7b0135to52p]
+yandex_compute_instance.vm["kibana"]: Creation complete after 50s [id=fhm8cji5pgvpgjtlpu1n]
+yandex_compute_instance.vm["bastion_host"]: Still creating... [50s elapsed]
+yandex_compute_instance.vm["grafana"]: Still creating... [50s elapsed]
+yandex_compute_instance.vm["grafana"]: Creation complete after 51s [id=fhmnsc0pbh66bv23p2te]
+yandex_compute_instance.vm["bastion_host"]: Creation complete after 53s [id=fhm7pdnde6ooqh0ndvpf]
+time_sleep.wait_x_seconds: Creating...
+yandex_compute_snapshot_schedule.daily_snapshot: Creating...
+yandex_compute_snapshot_schedule.daily_snapshot: Creation complete after 7s [id=fd864udb2so3gm0n9o7k]
+time_sleep.wait_x_seconds: Still creating... [10s elapsed]
+time_sleep.wait_x_seconds: Still creating... [20s elapsed]
+time_sleep.wait_x_seconds: Still creating... [30s elapsed]
+time_sleep.wait_x_seconds: Still creating... [40s elapsed]
+time_sleep.wait_x_seconds: Still creating... [50s elapsed]
+time_sleep.wait_x_seconds: Still creating... [1m0s elapsed]
+time_sleep.wait_x_seconds: Still creating... [1m10s elapsed]
+time_sleep.wait_x_seconds: Still creating... [1m20s elapsed]
+time_sleep.wait_x_seconds: Still creating... [1m30s elapsed]
+time_sleep.wait_x_seconds: Still creating... [1m40s elapsed]
+time_sleep.wait_x_seconds: Still creating... [1m50s elapsed]
+time_sleep.wait_x_seconds: Still creating... [2m0s elapsed]
+time_sleep.wait_x_seconds: Creation complete after 2m0s [id=2025-01-15T14:02:16Z]
+null_resource.run_ansible_webserv1: Creating...
+null_resource.run_ansible_elastic: Creating...
+null_resource.run_ansible_kibana: Creating...
+null_resource.run_ansible_grafana: Creating...
+null_resource.run_ansible_prometheus: Creating...
+null_resource.run_ansible_webserv1: Provisioning with 'local-exec'...
+null_resource.run_ansible_webserv1 (local-exec): Executing: ["/bin/sh" "-c" "      cd ./ansible &&\n      ansible-playbook ansible_web.yml \\\n      --extra-vars \"bastion_server=158.160.48.96 \\\n      ansible_host=192.168.15.14 \\\n      elastic_password=E2oVAphoo6Pg \\\n      elastic_ip=192.168.10.24\"\n"]
+null_resource.run_ansible_elastic: Provisioning with 'local-exec'...
+null_resource.run_ansible_elastic (local-exec): Executing: ["/bin/sh" "-c" "      cd ./ansible &&\n      ansible-playbook ansible_elastic.yml \\\n      --extra-vars \"bastion_server=158.160.48.96 \\\n      elastic_password=E2oVAphoo6Pg \\\n      elastic_ip=192.168.10.24 \\\n      ansible_host=192.168.10.24\"\n"]
+null_resource.run_ansible_grafana: Provisioning with 'local-exec'...
+null_resource.run_ansible_grafana (local-exec): Executing: ["/bin/sh" "-c" "      cd ./ansible &&\n      ansible-playbook ansible_grafana.yml \\\n      --extra-vars \"bastion_server=158.160.48.96 \\\n      ansible_host=192.168.12.16 \\\n      grafana_password=LXuN24SNLDhz \\\n      elastic_password=E2oVAphoo6Pg \\\n      elastic_ip=192.168.10.24 \\\n      prometheus_ip=192.168.10.32\"\n"]
+null_resource.run_ansible_kibana: Provisioning with 'local-exec'...
+null_resource.run_ansible_kibana (local-exec): Executing: ["/bin/sh" "-c" "      cd ./ansible && \\\n      ansible-playbook ansible_kibana.yml \\\n      --extra-vars \"bastion_server=158.160.48.96 \\\n      ansible_host=192.168.12.8 \\\n      elastic_password=E2oVAphoo6Pg \\      \n      elastic_ip=192.168.10.24\"\n"]
+null_resource.run_ansible_prometheus: Provisioning with 'local-exec'...
+null_resource.run_ansible_prometheus (local-exec): Executing: ["/bin/sh" "-c" "      cd ./ansible &&\n      ansible-playbook ansible_prometheus.yml \\\n      --extra-vars \"bastion_server=158.160.48.96 \\\n      elastic_password=E2oVAphoo6Pg \\\n      elastic_ip=192.168.10.24 \\\n      postgre_password=Jdlkh34ljnfk \\\n      postgre_host=rc1a-fyne2hawasb7o52m.mdb.yandexcloud.net \\\n      ansible_host=192.168.10.32\"\n"]
+
+null_resource.run_ansible_grafana (local-exec): PLAY [Install and configure Grafana with dashboards] ***************************
+
+null_resource.run_ansible_grafana (local-exec): TASK [Gathering Facts] *********************************************************
+
+null_resource.run_ansible_elastic (local-exec): PLAY [Install Elasticsearch from Yandex repository] ****************************
+
+null_resource.run_ansible_elastic (local-exec): TASK [Gathering Facts] *********************************************************
+
+null_resource.run_ansible_webserv1 (local-exec): PLAY [Install and configure Nginx with exporters and Filebeat] *****************
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Gathering Facts] *********************************************************
+
+null_resource.run_ansible_prometheus (local-exec): PLAY [Install and configure Prometheus with exporters] *************************
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Gathering Facts] *********************************************************
+
+null_resource.run_ansible_kibana (local-exec): PLAY [Install and configure Kibana] ********************************************
+
+null_resource.run_ansible_kibana (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.run_ansible_webserv1: Still creating... [10s elapsed]
+null_resource.run_ansible_elastic: Still creating... [10s elapsed]
+null_resource.run_ansible_grafana: Still creating... [10s elapsed]
+null_resource.run_ansible_kibana: Still creating... [10s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [10s elapsed]
+null_resource.run_ansible_webserv1 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Update package list] *****************************************************
+null_resource.run_ansible_prometheus (local-exec): ok: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Ensure required directories exist for Prometheus binaries] ***************
+null_resource.run_ansible_grafana (local-exec): ok: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Download Grafana .deb package] *******************************************
+null_resource.run_ansible_elastic (local-exec): ok: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Add Elasticsearch repository] ********************************************
+null_resource.run_ansible_kibana (local-exec): ok: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Add Elasticsearch repository] ********************************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Download Prometheus tarball] *********************************************
+null_resource.run_ansible_webserv1: Still creating... [20s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [20s elapsed]
+null_resource.run_ansible_kibana: Still creating... [20s elapsed]
+null_resource.run_ansible_elastic: Still creating... [20s elapsed]
+null_resource.run_ansible_grafana: Still creating... [20s elapsed]
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Install Grafana from .deb package] ***************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Install Nginx] ***********************************************************
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Update APT cache] ********************************************************
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Update APT cache] ********************************************************
+null_resource.run_ansible_webserv1: Still creating... [30s elapsed]
+null_resource.run_ansible_grafana: Still creating... [30s elapsed]
+null_resource.run_ansible_elastic: Still creating... [30s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [30s elapsed]
+null_resource.run_ansible_kibana: Still creating... [30s elapsed]
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Install Elasticsearch] ***************************************************
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Install Kibana] **********************************************************
+null_resource.run_ansible_webserv1: Still creating... [40s elapsed]
+null_resource.run_ansible_grafana: Still creating... [40s elapsed]
+null_resource.run_ansible_elastic: Still creating... [40s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [40s elapsed]
+null_resource.run_ansible_kibana: Still creating... [40s elapsed]
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Ensure Nginx is running] *************************************************
+null_resource.run_ansible_webserv1: Still creating... [50s elapsed]
+null_resource.run_ansible_kibana: Still creating... [50s elapsed]
+null_resource.run_ansible_elastic: Still creating... [50s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [50s elapsed]
+null_resource.run_ansible_grafana: Still creating... [50s elapsed]
+null_resource.run_ansible_webserv1 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Generate dynamic index.html] *********************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Download Node Exporter] **************************************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Create Grafana data source provisioning configuration] *******************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Extract Node Exporter to /tmp] *******************************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Create Grafana dashboard provisioning configuration] *********************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Move Node Exporter binary to /usr/local/bin] *****************************
+null_resource.run_ansible_webserv1: Still creating... [1m0s elapsed]
+null_resource.run_ansible_grafana: Still creating... [1m0s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m0s elapsed]
+null_resource.run_ansible_kibana: Still creating... [1m0s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [1m0s elapsed]
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Create Node Exporter systemd service] ************************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Copy Grafana dashboard JSON] *********************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Start and enable Node Exporter] ******************************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Copy Grafana alert yaml] *************************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Download Nginx Log Exporter binary] **************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Extract Nginx Log Exporter binary to /tmp] *******************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Configure Grafana admin username] ****************************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Configure Grafana admin password] ****************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Move Nginx Log Exporter binary to /usr/sbin] *****************************
+null_resource.run_ansible_webserv1: Still creating... [1m10s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [1m10s elapsed]
+null_resource.run_ansible_grafana: Still creating... [1m10s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m10s elapsed]
+null_resource.run_ansible_kibana: Still creating... [1m10s elapsed]
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Restart Grafana service to apply dashboards provisioning] ****************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Ensure Nginx Log Exporter binary is executable] **************************
+null_resource.run_ansible_webserv1 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Create Nginx Log Exporter systemd service file] **************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Add Elasticsearch repository] ********************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Create Nginx Log Exporter configuration file] ****************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Add nobody user to adm group] ********************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Reload systemd to apply Nginx Log Exporter service] **********************
+null_resource.run_ansible_webserv1: Still creating... [1m20s elapsed]
+null_resource.run_ansible_kibana: Still creating... [1m20s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [1m20s elapsed]
+null_resource.run_ansible_grafana: Still creating... [1m20s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m20s elapsed]
+null_resource.run_ansible_webserv1 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Start and enable Nginx Log Exporter service] *****************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Add Elasticsearch repository] ********************************************
+null_resource.run_ansible_webserv1: Still creating... [1m30s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m30s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [1m30s elapsed]
+null_resource.run_ansible_kibana: Still creating... [1m30s elapsed]
+null_resource.run_ansible_grafana: Still creating... [1m30s elapsed]
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Update APT cache] ********************************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Install Filebeat] ********************************************************
+null_resource.run_ansible_webserv1: Still creating... [1m40s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m40s elapsed]
+null_resource.run_ansible_kibana: Still creating... [1m40s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [1m40s elapsed]
+null_resource.run_ansible_grafana: Still creating... [1m40s elapsed]
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Update APT cache] ********************************************************
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Configure Elasticsearch using template] **********************************
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Install Filebeat] ********************************************************
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Enable and start Elasticsearch] ******************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Configure Filebeat using template] ***************************************
+null_resource.run_ansible_webserv1: Still creating... [1m50s elapsed]
+null_resource.run_ansible_kibana: Still creating... [1m50s elapsed]
+null_resource.run_ansible_grafana: Still creating... [1m50s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [1m50s elapsed]
+null_resource.run_ansible_elastic: Still creating... [1m50s elapsed]
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Copy Nginx module configuration] *****************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Enable Nginx module in Filebeat] *****************************************
+null_resource.run_ansible_webserv1 (local-exec): ok: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): TASK [Enable and start Filebeat service] ***************************************
+null_resource.run_ansible_webserv1 (local-exec): changed: [host1]
+
+null_resource.run_ansible_webserv1 (local-exec): PLAY RECAP *********************************************************************
+null_resource.run_ansible_webserv1 (local-exec): host1                      : ok=26   changed=21   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.run_ansible_webserv1: Creation complete after 1m57s [id=5584934569509967764]
+null_resource.stop_webserv1: Creating...
+null_resource.stop_webserv1: Provisioning with 'local-exec'...
+null_resource.stop_webserv1 (local-exec): Executing: ["/bin/sh" "-c" "yc compute instance stop webserv1"]
+null_resource.stop_webserv1 (local-exec): ...1s
+null_resource.run_ansible_elastic: Still creating... [2m0s elapsed]
+null_resource.run_ansible_grafana: Still creating... [2m0s elapsed]
+null_resource.run_ansible_kibana: Still creating... [2m0s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [2m0s elapsed]
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Configure Filebeat using template] ***************************************
+null_resource.stop_webserv1 (local-exec): ...6s
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): TASK [Enable and start Filebeat service] ***************************************
+null_resource.stop_webserv1: Still creating... [10s elapsed]
+null_resource.run_ansible_grafana (local-exec): changed: [host1]
+
+null_resource.run_ansible_grafana (local-exec): PLAY RECAP *********************************************************************
+null_resource.run_ansible_grafana (local-exec): host1                      : ok=15   changed=14   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.run_ansible_grafana: Creation complete after 2m10s [id=611071588959612279]
+null_resource.stop_webserv1 (local-exec): ...11s
+null_resource.run_ansible_elastic: Still creating... [2m10s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [2m10s elapsed]
+null_resource.run_ansible_kibana: Still creating... [2m10s elapsed]
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Configure Kibana] ********************************************************
+null_resource.stop_webserv1 (local-exec): ...17s
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Wait for Elasticsearch to become available] ******************************
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Ensure Kibana service is started and enabled] ****************************
+null_resource.stop_webserv1: Still creating... [20s elapsed]
+null_resource.run_ansible_elastic (local-exec): ok: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Setup password for elastic user] *****************************************
+null_resource.stop_webserv1 (local-exec): ...done (20s)
+null_resource.stop_webserv1: Creation complete after 22s [id=7813635949932486685]
+time_sleep.wait_after_stop: Creating...
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Wait for Kibana to become available] *************************************
+null_resource.run_ansible_kibana: Still creating... [2m20s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [2m20s elapsed]
+null_resource.run_ansible_elastic: Still creating... [2m20s elapsed]
+null_resource.run_ansible_elastic (local-exec): ok: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Extract temporary password for elastic user] *****************************
+null_resource.run_ansible_elastic (local-exec): ok: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Change elastic user password] ********************************************
+time_sleep.wait_after_stop: Still creating... [10s elapsed]
+null_resource.run_ansible_elastic (local-exec): ok: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Install Filebeat] ********************************************************
+null_resource.run_ansible_elastic: Still creating... [2m30s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [2m30s elapsed]
+null_resource.run_ansible_kibana: Still creating... [2m30s elapsed]
+time_sleep.wait_after_stop: Still creating... [20s elapsed]
+null_resource.run_ansible_kibana: Still creating... [2m40s elapsed]
+null_resource.run_ansible_elastic: Still creating... [2m40s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [2m40s elapsed]
+null_resource.run_ansible_kibana (local-exec): FAILED - RETRYING: [host1]: Wait for Kibana to become available (10 retries left).
+null_resource.run_ansible_kibana (local-exec): ok: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Copy Kibana export file to remote host] **********************************
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Import Kibana dashboard and visualizations using curl with authentication] ***
+null_resource.run_ansible_kibana (local-exec): ok: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Install Filebeat] ********************************************************
+time_sleep.wait_after_stop: Still creating... [30s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [2m50s elapsed]
+null_resource.run_ansible_kibana: Still creating... [2m50s elapsed]
+null_resource.run_ansible_elastic: Still creating... [2m50s elapsed]
+time_sleep.wait_after_stop: Still creating... [40s elapsed]
+null_resource.run_ansible_elastic: Still creating... [3m0s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [3m0s elapsed]
+null_resource.run_ansible_kibana: Still creating... [3m0s elapsed]
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Configure Filebeat using template] ***************************************
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Configure Filebeat using template] ***************************************
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): TASK [Enable and start Filebeat service] ***************************************
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): TASK [Enable and start Filebeat service] ***************************************
+null_resource.run_ansible_kibana (local-exec): changed: [host1]
+
+null_resource.run_ansible_kibana (local-exec): PLAY RECAP *********************************************************************
+null_resource.run_ansible_kibana (local-exec): host1                      : ok=12   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.run_ansible_kibana: Creation complete after 3m9s [id=5163461103746831927]
+time_sleep.wait_after_stop: Still creating... [50s elapsed]
+null_resource.run_ansible_elastic (local-exec): changed: [host1]
+
+null_resource.run_ansible_elastic (local-exec): PLAY RECAP *********************************************************************
+null_resource.run_ansible_elastic (local-exec): host1                      : ok=13   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.run_ansible_elastic: Creation complete after 3m9s [id=4058185344913164118]
+null_resource.run_ansible_prometheus: Still creating... [3m10s elapsed]
+time_sleep.wait_after_stop: Still creating... [1m0s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [3m20s elapsed]
+time_sleep.wait_after_stop: Still creating... [1m10s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [3m30s elapsed]
+time_sleep.wait_after_stop: Still creating... [1m20s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [3m40s elapsed]
+time_sleep.wait_after_stop: Still creating... [1m30s elapsed]
+time_sleep.wait_after_stop: Creation complete after 1m30s [id=2025-01-15T14:06:05Z]
+yandex_compute_snapshot.web_snapshot: Creating...
+null_resource.run_ansible_prometheus: Still creating... [3m50s elapsed]
+yandex_compute_snapshot.web_snapshot: Still creating... [10s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [4m0s elapsed]
+yandex_compute_snapshot.web_snapshot: Still creating... [20s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [4m10s elapsed]
+yandex_compute_snapshot.web_snapshot: Still creating... [30s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [4m20s elapsed]
+yandex_compute_snapshot.web_snapshot: Creation complete after 38s [id=fd8annpc6tps5hhad6hc]
+yandex_compute_instance_group.web_servers: Creating...
+null_resource.run_ansible_prometheus: Still creating... [4m30s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Extract Prometheus tarball] **********************************************
+yandex_compute_instance_group.web_servers: Still creating... [10s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [4m40s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Link Prometheus binary to system path] ***********************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Create Prometheus configuration directory] *******************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Upload Prometheus targets file] ******************************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Upload scan exporters script] ********************************************
+yandex_compute_instance_group.web_servers: Still creating... [20s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Add cron job for scan_exporters.sh] **************************************
+null_resource.run_ansible_prometheus: Still creating... [4m50s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Deploy Prometheus configuration file] ************************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Deploy Prometheus systemd service file] **********************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Reload systemd to apply Prometheus service] ******************************
+yandex_compute_instance_group.web_servers: Still creating... [30s elapsed]
+null_resource.run_ansible_prometheus (local-exec): ok: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Start and enable Prometheus service] *************************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Add Elasticsearch repository] ********************************************
+null_resource.run_ansible_prometheus: Still creating... [5m0s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [40s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [5m10s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [50s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [5m20s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [1m0s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [5m30s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [1m10s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [5m40s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Update APT cache] ********************************************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Install Filebeat] ********************************************************
+yandex_compute_instance_group.web_servers: Still creating... [1m20s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [5m50s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [1m30s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [6m0s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Configure Filebeat using template] ***************************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Enable and start Filebeat service] ***************************************
+yandex_compute_instance_group.web_servers: Still creating... [1m40s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Ensure PostgreSQL certificate directory exists] **************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Download PostgreSQL root certificate] ************************************
+null_resource.run_ansible_prometheus: Still creating... [6m10s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Install required packages] ***********************************************
+yandex_compute_instance_group.web_servers: Still creating... [1m50s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Download Go] *************************************************************
+null_resource.run_ansible_prometheus: Still creating... [6m20s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Install Go] **************************************************************
+yandex_compute_instance_group.web_servers: Still creating... [2m0s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [6m30s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Ensure Go is in PATH] ****************************************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Reload shell environment for PATH] ***************************************
+null_resource.run_ansible_prometheus (local-exec): ok: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Verify Go installation] **************************************************
+null_resource.run_ansible_prometheus (local-exec): ok: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Print Go version] ********************************************************
+null_resource.run_ansible_prometheus (local-exec): ok: [host1] => {
+null_resource.run_ansible_prometheus (local-exec):     "go_version_output.stdout": "go version go1.21.1 linux/amd64"
+null_resource.run_ansible_prometheus (local-exec): }
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Download postgresql-prometheus-adapter] **********************************
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Create target directory for postgresql-prometheus-adapter] ***************
+yandex_compute_instance_group.web_servers: Still creating... [2m10s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Extract postgresql-prometheus-adapter] ***********************************
+null_resource.run_ansible_prometheus: Still creating... [6m40s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Install Go dependencies for postgresql-prometheus-adapter] ***************
+yandex_compute_instance_group.web_servers: Still creating... [2m20s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [6m50s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [2m30s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [7m0s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [2m40s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [7m10s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [2m50s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [7m20s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [3m0s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [7m30s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [3m10s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [7m40s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [3m20s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [7m50s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [3m30s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [8m0s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [3m40s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [8m10s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [3m50s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [8m20s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [4m0s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [8m30s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [4m10s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [8m40s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [4m20s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [8m50s elapsed]
+null_resource.run_ansible_prometheus (local-exec): ok: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Build postgresql-prometheus-adapter] *************************************
+yandex_compute_instance_group.web_servers: Still creating... [4m30s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [9m0s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [4m40s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [9m10s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [4m50s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [9m20s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [5m0s elapsed]
+null_resource.run_ansible_prometheus: Still creating... [9m30s elapsed]
+null_resource.run_ansible_prometheus (local-exec): ok: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Create systemd service for postgresql-prometheus-adapter] ****************
+yandex_compute_instance_group.web_servers: Still creating... [5m10s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Reload systemd] **********************************************************
+null_resource.run_ansible_prometheus (local-exec): ok: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): TASK [Enable and start postgresql-prometheus-adapter] **************************
+null_resource.run_ansible_prometheus: Still creating... [9m40s elapsed]
+null_resource.run_ansible_prometheus (local-exec): changed: [host1]
+
+null_resource.run_ansible_prometheus (local-exec): PLAY RECAP *********************************************************************
+null_resource.run_ansible_prometheus (local-exec): host1                      : ok=35   changed=27   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.run_ansible_prometheus: Creation complete after 9m41s [id=5164868829309906450]
+yandex_compute_instance_group.web_servers: Still creating... [5m20s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [5m30s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [5m40s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [5m50s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [6m0s elapsed]
+yandex_compute_instance_group.web_servers: Still creating... [6m10s elapsed]
+yandex_compute_instance_group.web_servers: Creation complete after 6m10s [id=cl1pbmi3s69no7j64qd1]
+yandex_alb_backend_group.my-backend-group: Creating...
+yandex_alb_backend_group.my-backend-group: Creation complete after 0s [id=ds7b9a5u994clug3fkhd]
+yandex_alb_virtual_host.my-virtual-host: Creating...
+yandex_alb_load_balancer.my-load-balancer: Creating...
+yandex_alb_virtual_host.my-virtual-host: Creation complete after 2s [id=ds7nnj97glqeek2o2io2/my-virtual-host]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [10s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [20s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [30s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [40s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [50s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m0s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m10s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m20s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m30s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m40s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [1m50s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m0s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m10s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m20s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m30s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m40s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [2m50s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m0s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m10s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m20s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m30s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m40s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [3m50s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m0s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m10s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m20s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m30s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m40s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [4m50s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Still creating... [5m0s elapsed]
+yandex_alb_load_balancer.my-load-balancer: Creation complete after 5m3s [id=ds70ubrqaltumhh1pcc5]
+yandex_dns_recordset.dns_a_record: Creating...
+yandex_dns_recordset.dns_a_record: Creation complete after 1s [id=dns1d6apfmtfchc2o7jo/kursovai-devops.ru./A]
+
+Apply complete! Resources: 21 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+external_IP_address_of_the_load_balancer = tolist([
+  {
+    "address" = "51.250.37.208"
+  },
+])
+external_ip_addresses = {
+  "bastion_host" = "158.160.48.96"
+  "elasticsearch" = ""
+  "grafana" = "84.201.175.3"
+  "kibana" = "89.169.137.115"
+  "prometheus" = ""
+  "webserv1" = ""
+}
+internal_ip_addresses = {
+  "bastion_host" = "192.168.13.13"
+  "elasticsearch" = "192.168.10.24"
+  "grafana" = "192.168.12.16"
+  "kibana" = "192.168.12.8"
+  "prometheus" = "192.168.10.32"
+  "webserv1" = "192.168.15.14"
+}
