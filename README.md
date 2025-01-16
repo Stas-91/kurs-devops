@@ -100,7 +100,7 @@ https://github.com/Stas-91/kursovai-dop/tree/main
 
 Лог создания ресурсов terraform и настройки ansible представлен в файле: [worklog](results_dop/log_dop)  
 
-Скриншоты (католог results_dop): [images](results_dop/)
+Скриншоты (католог results_dop): [images_dop](results_dop/)
 
 
 
