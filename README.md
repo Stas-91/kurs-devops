@@ -46,11 +46,4 @@
 Лог создания ресурсов terraform и настройки ansible представлен в файле:  
 [worklog](results/worklog)  
 
-Скриншоты:
-[VM](results/)
-![ALB](results/ALB.png)
-![VPC](results/VPC.png)
-![grafana](results/grafana.png)
-![kibana.png](results/kibana.png)
-![webserv1](results/webserv1.png)
-![webserv2](results/webserv2.png)
+Скриншоты (католог resalts): [VM](results/)
