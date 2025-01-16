@@ -86,7 +86,7 @@ https://github.com/Stas-91/kursovai-dop/tree/main
 - Для работы необходимо указать данные в файле terraform.tfvars - yandex_cloud_token, elastic_passwd, grafana_passwd, postgre_passwd, ssh_public_key
 - В папку ansible нужно положить соответствующий приватный ключ SSH и указать его имя в ansible.cfg, так же приватный ключ должен быть и в обычном расположении ~/.ssh
 - Для входа в grafana пользователь - admin, kibana - elastic
-- На всех ВМ пользователь указывается variables.tf - variable "user_vm" по умолчанию stas, в Ansible inventory.ini и ansible.cfg соответвенно тоже нужно указать пользователь stas или то имя которое задано в variable "user_vm"
+- Для всех ВМ пользователь указывается variables.tf - variable "user_vm" по умолчанию stas, в Ansible inventory.ini и ansible.cfg соответвенно тоже нужно указать пользователь stas или то имя которое задано в variable "user_vm"
 - Для ВМ Использован образ Ubuntu с id - fd8s3qh62qn5sqoemni6
 
 ### Дополнительные настройки:  
