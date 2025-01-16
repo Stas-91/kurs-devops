@@ -47,7 +47,7 @@
 [worklog](results/worklog)  
 
 Скриншоты:
-![VM](results/VM.png)
+[VM](results/)
 ![ALB](results/ALB.png)
 ![VPC](results/VPC.png)
 ![grafana](results/grafana.png)
